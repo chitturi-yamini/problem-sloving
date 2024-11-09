@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whack-a-Mole Game</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #f4f4f4;
+}
+
+h1 {
+  margin: 20px 0;
+}
+
+#game {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 10px;
+  justify-content: center;
+}
+
+.hole {
+  width: 100px;
+  height: 100px;
+  background-color: #8b4513;
+  border-radius: 50%;
+  position: relative;
+}
+
+.mole {
+  width: 70px;
+  height: 70px;
+  background-color: #6a2c2c;
+  border-radius: 50%;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  display: none;
+}
+
+h2 {
+  margin-top: 20px;
+}
+
+  </style>
+</head>
+<body>
+  <h1>Whack-a-Mole Game</h1>
+  <div id="game">
+    <div class="hole" id="hole1"></div>
+    <div class="hole" id="hole2"></div>
+    <div class="hole" id="hole3"></div>
+    <div class="hole" id="hole4"></div>
+    <div class="hole" id="hole5"></div>
+    <div class="hole" id="hole6"></div>
+    <div class="hole" id="hole7"></div>
+    <div class="hole" id="hole8"></div>
+    <div class="hole" id="hole9"></div>
+  </div>
+  <p>Score: <span id="score">0</span></p>
+  <p>Time left: <span id="timeLeft">30</span> seconds</p>
+  <script>
+    let score = 0;
+let timeLeft = 30;
+let gameInterval;
+let moleInterval;
+
+// Elements
+const scoreElement = document.getElementById("score");
+const timeLeftElement = document.getElementById("timeLeft");
+const holes = document.querySelectorAll(".hole");
+
+// Start game button
+const startGame = () => {
+  score = 0;
+  timeLeft = 30;
+  scoreElement.textContent = score;
+  timeLeftElement.textContent = timeLeft;
+  startCountdown();
+  startMoleAppearance();
+};
+
+const startCountdown = () => {
+  gameInterval = setInterval(() => {
+    timeLeft--;
+    timeLeftElement.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(gameInterval);
+      clearInterval(moleInterval);
+      alert(`Game Over! Your final score is ${score}`);
+    }
+  }, 1000);
+};
+
+const startMoleAppearance = () => {
+  moleInterval = setInterval(() => {
+    const randomHoleIndex = Math.floor(Math.random() * holes.length);
+    const mole = document.createElement("div");
+    mole.classList.add("mole");
+    holes[randomHoleIndex].appendChild(mole);
+
+    // Mole disappears after 1 second
+    setTimeout(() => {
+      mole.remove();
+    }, 1000);
+
+    // Whack event
+    mole.addEventListener("click", () => {
+      score++;
+      scoreElement.textContent = score;
+      mole.remove();
+    });
+  }, 1000);
+};
+
+// Start game when clicking anywhere in the document
+document.body.addEventListener("click", startGame);
+
+  </script>
+</body>
+</html>
