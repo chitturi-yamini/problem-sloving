@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let a = 5;
+let b = 10;
+
+console.log('Before Swap:', 'a =', a, 'b =', b);
+
+// Using arithmetic
+a = a + b; // sum of both numbers
+b = a - b; // subtract b from the sum to get a's original value
+a = a - b; // subtract new b (which is a's original value) from the sum to get b's original value
+
+console.log('After Swap:', 'a =', a, 'b =', b);
+
+    </script>
+</body>
+</html>
